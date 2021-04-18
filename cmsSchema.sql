@@ -27,4 +27,3 @@ CREATE TABLE employee (
 );
 
 
--- INSERT INTO auctions (item_name, category) VALUES ('matchbox', 'hobby'), ('pencil', 'office supplies');
