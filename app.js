@@ -91,7 +91,7 @@ const addEmployee = () => {
             {
                 type: 'input',
                 name: 'manager_id',
-                message: "What is the ID of this employee's manager?",
+                message: "What is the ID of this employee's manager? (ENTER 0 if no manager)",
             },
         ])
         .then((answer) => {
@@ -100,23 +100,41 @@ const addEmployee = () => {
             let role_id = answer.role_id;
             let manager_id = answer.manager_id;
 
-            // console.log(manager_id);
-
-            if (!manager_id) {
-                connection.query(`INSERT INTO employee (first_name, last_name, role_id) VALUES ('${first_name}', '${last_name}', ${role_id})`, (err, res) => {
-                    if (err) throw err;
-                    console.log(`${first_name} was added without a manager!`);
-                })
-            } else {
-                connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', ${role_id}, ${manager_id})`, (err, res) => {
-                    if (err) throw err;
-                    console.log(`${first_name} was added with a manager!`);
-                })
-            }
-        })
+            connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', ${role_id}, ${manager_id})`, (err, res) => {
+                if (err) throw err;
+                console.log(`${first_name} was added with a manager!`);
+                startProgram();
+            })
+        }
+        )
 }
 
+const viewDepartments = () => {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
 
+const viewRoles = () => {
+    connection.query('SELECT * FROM role', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
+
+const viewEmployees = () => {
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
 
 const quit = () => {
     console.log('Bye!');
