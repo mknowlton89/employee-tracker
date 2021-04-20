@@ -281,6 +281,7 @@ const removeEmployee = () => {
             connection.query(`DELETE FROM employee WHERE (first_name = '${answer.first_name}' AND last_name = '${answer.last_name}')`, (err, res) => {
                 if (err) throw err;
                 console.log(`${answer.first_name} was removed.`)
+                startProgram();
             })
         })
 }
@@ -298,6 +299,7 @@ const removeDepartment = () => {
             connection.query(`DELETE FROM department WHERE dept_name = '${answer.dept_name}'`, (err, res) => {
                 if (err) throw err;
                 console.log(`${answer.dept_name} was removed.`)
+                startProgram();
             })
         })
 }
@@ -315,6 +317,7 @@ const removeRole = () => {
             connection.query(`DELETE FROM role WHERE title = '${answer.role_title}'`, (err, res) => {
                 if (err) throw err;
                 console.log(`${answer.role_title} was removed.`)
+                startProgram();
             })
         })
 }
