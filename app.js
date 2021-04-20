@@ -1,6 +1,10 @@
 const inquirer = require('inquirer');
 const mysql = require('mysql');
 const cTable = require('console.table');
+// const startProgram = require('./startProgram.js');
+// const addDepartment = require('./addDepartment.js');
+// const addRole = require('./addRole.js');
+// const addEmployee = require('./addEmployee.js');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -136,6 +140,40 @@ const viewEmployees = () => {
     })
 }
 
+const updateEmployee = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'first_name',
+                message: "What is the employees first name?",
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message: "What is the employee's last name?",
+            },
+            {
+                type: 'input',
+                name: 'role_id',
+                message: 'What is the ID of the new role this employee will have?',
+            },
+        ])
+        .then((answer) => {
+            let first_name = answer.first_name;
+            let last_name = answer.last_name;
+            let role_id = answer.role_id;
+
+            connection.query(`UPDATE employee SET role_id = '${role_id}' WHERE first_name = '${first_name}' AND last_name = '${last_name}'`, (err, res) => {
+                if (err) {
+                    console.log("Sorry, we were unable to update that employee.");
+                };
+                console.log(`${first_name} was updated!`);
+                startProgram();
+            })
+        })
+}
+
 const quit = () => {
     console.log('Bye!');
     connection.end();
@@ -146,24 +184,26 @@ const startProgram = () => {
         .prompt([
             {
                 type: 'list',
-                name: 'chooseType',
+                name: 'choose_type',
                 message: 'Would you like to do?',
                 choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Exit'],
             }
         ])
         .then((answer) => {
-            if (answer.chooseType === "Add a Department") {
+            if (answer.choose_type === "Add a Department") {
                 addDepartment();
-            } else if (answer.chooseType === "Add a Role") {
+            } else if (answer.choose_type === "Add a Role") {
                 addRole();
-            } else if (answer.chooseType === "Add an Employee") {
+            } else if (answer.choose_type === "Add an Employee") {
                 addEmployee();
-            } else if (answer.chooseType === "View all Departments") {
+            } else if (answer.choose_type === "View all Departments") {
                 viewDepartments();
-            } else if (answer.chooseType === "View all Roles") {
+            } else if (answer.choose_type === "View all Roles") {
                 viewRoles();
-            } else if (answer.chooseType === "View all Employees") {
+            } else if (answer.choose_type === "View all Employees") {
                 viewEmployees();
+            } else if (answer.choose_type === "Update Employee Roles") {
+                updateEmployee();
             } else {
                 quit();
             }
