@@ -263,6 +263,62 @@ const viewDeptBudget = () => {
         })
 }
 
+const removeEmployee = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'first_name',
+                message: "What is the first name of the employee you would like to remove?",
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message: "What is the last name of the employee you would like to remove?",
+            }
+        ])
+        .then((answer) => {
+            connection.query(`DELETE FROM employee WHERE (first_name = '${answer.first_name}' AND last_name = '${answer.last_name}')`, (err, res) => {
+                if (err) throw err;
+                console.log(`${answer.first_name} was removed.`)
+            })
+        })
+}
+
+const removeDepartment = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'dept_name',
+                message: "What is the name of the department you would like to remove?",
+            }
+        ])
+        .then((answer) => {
+            connection.query(`DELETE FROM department WHERE dept_name = '${answer.dept_name}'`, (err, res) => {
+                if (err) throw err;
+                console.log(`${answer.dept_name} was removed.`)
+            })
+        })
+}
+
+const removeRole = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'role_title',
+                message: "What is the title of the role you would like to remove?",
+            }
+        ])
+        .then((answer) => {
+            connection.query(`DELETE FROM role WHERE title = '${answer.role_title}'`, (err, res) => {
+                if (err) throw err;
+                console.log(`${answer.role_title} was removed.`)
+            })
+        })
+}
+
 const startProgram = () => {
     inquirer
         .prompt([
@@ -270,7 +326,7 @@ const startProgram = () => {
                 type: 'list',
                 name: 'choose_type',
                 message: 'Would you like to do?',
-                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Update employee managers', 'View employees by manager', 'View Dept Budget', 'Exit'],
+                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Update employee managers', 'View employees by manager', 'View Dept Budget', 'Remove Employee', 'Remove Department', 'Remove Role', 'Exit'],
             }
         ])
         .then((answer) => {
@@ -294,6 +350,12 @@ const startProgram = () => {
                 viewEmployeeByManager();
             } else if (answer.choose_type === "View Dept Budget") {
                 viewDeptBudget();
+            } else if (answer.choose_type === "Remove Employee") {
+                removeEmployee();
+            } else if (answer.choose_type === "Remove Department") {
+                removeDepartment();
+            } else if (answer.choose_type === "Remove Role") {
+                removeRole();
             } else {
                 quit();
             }
