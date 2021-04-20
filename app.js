@@ -121,33 +121,6 @@ const addEmployee = () => {
         )
 }
 
-const viewDepartments = () => {
-    connection.query('SELECT * FROM department', (err, res) => {
-        if (err) throw err;
-        const table = cTable.getTable(res);
-        console.log(table);
-        startProgram();
-    })
-}
-
-const viewRoles = () => {
-    connection.query('SELECT * FROM role', (err, res) => {
-        if (err) throw err;
-        const table = cTable.getTable(res);
-        console.log(table);
-        startProgram();
-    })
-}
-
-const viewEmployees = () => {
-    connection.query('SELECT * FROM employee', (err, res) => {
-        if (err) throw err;
-        const table = cTable.getTable(res);
-        console.log(table);
-        startProgram();
-    })
-}
-
 const updateEmployee = () => {
     inquirer
         .prompt([
@@ -218,6 +191,33 @@ const updateEmployeeManager = () => {
         })
 }
 
+const viewDepartments = () => {
+    connection.query('SELECT * FROM department', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
+
+const viewRoles = () => {
+    connection.query('SELECT * FROM role', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
+
+const viewEmployees = () => {
+    connection.query('SELECT * FROM employee', (err, res) => {
+        if (err) throw err;
+        const table = cTable.getTable(res);
+        console.log(table);
+        startProgram();
+    })
+}
+
 const viewEmployeeByManager = () => {
     inquirer
         .prompt([
@@ -237,11 +237,6 @@ const viewEmployeeByManager = () => {
         })
 }
 
-const quit = () => {
-    console.log('Bye!');
-    connection.end();
-}
-
 const viewDeptBudget = () => {
     inquirer
         .prompt([
@@ -259,6 +254,7 @@ const viewDeptBudget = () => {
             WHERE department_id = ${answer.department_id}`, (err, res) => {
                 if (err) throw err;
                 console.log(res);
+                startProgram();
             })
         })
 }
@@ -320,6 +316,11 @@ const removeRole = () => {
                 startProgram();
             })
         })
+}
+
+const quit = () => {
+    console.log('Bye!');
+    connection.end();
 }
 
 const startProgram = () => {
