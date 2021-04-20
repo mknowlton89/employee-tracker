@@ -1,10 +1,6 @@
 const inquirer = require('inquirer');
-const mysql = require('mysql');
 const cTable = require('console.table');
-// const startProgram = require('./startProgram.js');
-// const addDepartment = require('./addDepartment.js');
-// const addRole = require('./addRole.js');
-// const addEmployee = require('./addEmployee.js');
+const mysql = require('mysql');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -34,6 +30,7 @@ const addDepartment = () => {
             connection.query(`INSERT INTO department (dept_name) VALUES ('${dept_name}')`, (err, res) => {
                 if (err) throw err;
                 console.log(`${dept_name} was added!`);
+                startProgram();
             })
         })
 }
@@ -70,6 +67,7 @@ const addRole = () => {
             connection.query(`INSERT INTO role (title, salary, department_id, dept_name) VALUES ('${title}', ${salary}, ${department_id}, '${dept_name}')`, (err, res) => {
                 if (err) throw err;
                 console.log(`${title} was added!`);
+                startProgram();
             })
         })
 }
@@ -104,11 +102,21 @@ const addEmployee = () => {
             let role_id = answer.role_id;
             let manager_id = answer.manager_id;
 
-            connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', ${role_id}, ${manager_id})`, (err, res) => {
-                if (err) throw err;
-                console.log(`${first_name} was added with a manager!`);
-                startProgram();
-            })
+            console.log(manager_id);
+
+            if (manager_id == 0) {
+                connection.query(`INSERT INTO employee (first_name, last_name, role_id) VALUES ('${first_name}', '${last_name}', ${role_id})`, (err, res) => {
+                    if (err) throw err;
+                    console.log(`${first_name} was added without a manager!`);
+                    startProgram();
+                })
+            } else {
+                connection.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${first_name}', '${last_name}', ${role_id}, ${manager_id})`, (err, res) => {
+                    if (err) throw err;
+                    console.log(`${first_name} was added with a manager!`);
+                    startProgram();
+                })
+            }
         }
         )
 }
@@ -174,6 +182,61 @@ const updateEmployee = () => {
         })
 }
 
+const updateEmployeeManager = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'first_name',
+                message: "What is the first name of the employee who's manager you would like to update?",
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message: "What is the last name of the employee who's manager you would like to update?",
+            },
+            {
+                type: 'input',
+                name: 'manager_id',
+                message: "What is the ID of this employee's new manager?",
+            },
+        ])
+        .then((answer) => {
+            let first_name = answer.first_name;
+            let last_name = answer.last_name;
+            let manager_id = answer.manager_id;
+
+            connection.query(`UPDATE employee SET manager_id = '${manager_id}' WHERE first_name = '${first_name}' AND last_name = '${last_name}'`, (err, res) => {
+                if (err) {
+                    console.log(err);
+                    console.log("Sorry, we were unable to update that employee.");
+                    return;
+                };
+                console.log(`${first_name}'s manager was updated!`);
+                startProgram();
+            })
+        })
+}
+
+const viewEmployeeByManager = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'manager_id',
+                message: "Please enter the id of the manager you would you like to see direct reports for?",
+            },
+        ])
+        .then((answer) => {
+            connection.query(`SELECT first_name, last_name FROM employee WHERE manager_id='${answer.manager_id}'`, (err, res) => {
+                if (err) throw err;
+                const table = cTable.getTable(res);
+                console.log(table);
+                startProgram();
+            })
+        })
+}
+
 const quit = () => {
     console.log('Bye!');
     connection.end();
@@ -186,7 +249,7 @@ const startProgram = () => {
                 type: 'list',
                 name: 'choose_type',
                 message: 'Would you like to do?',
-                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Exit'],
+                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Update employee managers', 'View employees by manager', 'Exit'],
             }
         ])
         .then((answer) => {
@@ -204,6 +267,10 @@ const startProgram = () => {
                 viewEmployees();
             } else if (answer.choose_type === "Update Employee Roles") {
                 updateEmployee();
+            } else if (answer.choose_type === "Update employee managers") {
+                updateEmployeeManager();
+            } else if (answer.choose_type === "View employees by manager") {
+                viewEmployeeByManager();
             } else {
                 quit();
             }
@@ -215,3 +282,4 @@ connection.connect((err) => {
     console.log(`connected as id ${connection.threadId}\n`);
     startProgram();
 });
+

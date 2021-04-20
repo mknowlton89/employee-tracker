@@ -30,17 +30,17 @@ Design the following database schema containing three tables:
   
 Build a command-line application that at a minimum allows the user to:
 
-  * Add departments, roles, employees
+  * A̶d̶d̶ d̶e̶p̶a̶r̶t̶m̶e̶n̶t̶s̶,̶ r̶o̶l̶e̶s̶,̶ e̶m̶p̶l̶o̶y̶e̶e̶s̶
 
-  * View departments, roles, employees
+  * V̶i̶e̶w̶ d̶e̶p̶a̶r̶t̶m̶e̶n̶t̶s̶,̶ r̶o̶l̶e̶s̶,̶ e̶m̶p̶l̶o̶y̶e̶e̶s̶
 
-  * Update employee roles
+  * U̶p̶d̶a̶t̶e̶ e̶m̶p̶l̶o̶y̶e̶e̶ r̶o̶l̶e̶s̶
 
 Bonus points if you're able to:
 
-  * Update employee managers
+  * U̶p̶d̶a̶t̶e̶ e̶m̶p̶l̶o̶y̶e̶e̶ m̶a̶n̶a̶g̶e̶r̶s̶
 
-  * View employees by manager
+  * V̶i̶e̶w̶ e̶m̶p̶l̶o̶y̶e̶e̶s̶ b̶y̶ m̶a̶n̶a̶g̶e̶r̶
 
   * Delete departments, roles, and employees
 
