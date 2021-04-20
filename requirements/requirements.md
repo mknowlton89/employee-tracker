@@ -44,7 +44,7 @@ Bonus points if you're able to:
 
   * Delete departments, roles, and employees
 
-  * View the total utilized budget of a department -- ie the combined salaries of all employees in that department
+  * V̶i̶e̶w̶ t̶h̶e̶ t̶o̶t̶a̶l̶ u̶t̶i̶l̶i̶z̶e̶d̶ b̶u̶d̶g̶e̶t̶ o̶f̶ a̶ d̶e̶p̶a̶r̶t̶m̶e̶n̶t̶ -̶-̶ i̶e̶ t̶h̶e̶ c̶o̶m̶b̶i̶n̶e̶d̶ s̶a̶l̶a̶r̶i̶e̶s̶ o̶f̶ a̶l̶l̶ e̶m̶p̶l̶o̶y̶e̶e̶s̶ i̶n̶ t̶h̶a̶t̶ d̶e̶p̶a̶r̶t̶m̶e̶n̶t̶
 
 We can frame this challenge as follows:
 

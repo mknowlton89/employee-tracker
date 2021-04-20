@@ -242,6 +242,27 @@ const quit = () => {
     connection.end();
 }
 
+const viewDeptBudget = () => {
+    inquirer
+        .prompt([
+            {
+                type: 'input',
+                name: 'department_id',
+                message: 'What is the ID of the department would you like to get the budget for?',
+            }
+        ])
+        .then((answer) => {
+            connection.query(`SELECT sum(salary)
+            FROM role
+            JOIN employee
+            ON role.id = employee.role_id
+            WHERE department_id = ${answer.department_id}`, (err, res) => {
+                if (err) throw err;
+                console.log(res);
+            })
+        })
+}
+
 const startProgram = () => {
     inquirer
         .prompt([
@@ -249,7 +270,7 @@ const startProgram = () => {
                 type: 'list',
                 name: 'choose_type',
                 message: 'Would you like to do?',
-                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Update employee managers', 'View employees by manager', 'Exit'],
+                choices: ['Add a Department', 'Add a Role', 'Add an Employee', 'View all Departments', 'View all Roles', 'View all Employees', 'Update Employee Roles', 'Update employee managers', 'View employees by manager', 'View Dept Budget', 'Exit'],
             }
         ])
         .then((answer) => {
@@ -271,6 +292,8 @@ const startProgram = () => {
                 updateEmployeeManager();
             } else if (answer.choose_type === "View employees by manager") {
                 viewEmployeeByManager();
+            } else if (answer.choose_type === "View Dept Budget") {
+                viewDeptBudget();
             } else {
                 quit();
             }
